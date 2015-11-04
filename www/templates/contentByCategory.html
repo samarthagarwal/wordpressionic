@@ -1,0 +1,37 @@
+<ion-view>
+	<ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button class="button button-clear button-icon ion-arrow-left">
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-arrow-left-c" ui-sref="main.contentRecent">
+        </button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-heart" ui-sref="main.favorites">
+        </button>
+      </ion-nav-buttons>  
+    </ion-nav-bar>
+	<ion-header-bar class="bar bar-assertive">
+		<div class="title"><center>{{category_title}} Posts</center></div>
+	</ion-header-bar>
+	<div class="bar bar-subheader item-input-inset">
+		<label class="item-input-wrapper">
+	    	<i class="icon ion-ios-search placeholder-icon"></i>
+	    	<input type="search" placeholder="Search" ng-model="searchText">
+	  	</label>
+  	</div>
+	<ion-content class="has-subheader">
+		<ion-refresher
+		    pulling-text="Pull to refresh..."
+		    on-refresh="doRefresh()">
+	  	</ion-refresher>
+		<div class="list">
+			<a class="item item-thumbnail-left item-text-wrap" href="#/main/postDetail/{{post.id}}" ng-repeat="post in category_posts | filter: {title:searchText}">
+		      <img ng-src="{{post.thumbnail}}">
+		      <h2>{{post.title}}</h2>
+		      <p ng-bind-html="post.excerpt"></p>
+		    </a>
+	    </div>
+	</ion-content>
+</ion-view>

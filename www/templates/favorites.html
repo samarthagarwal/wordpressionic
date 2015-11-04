@@ -1,0 +1,37 @@
+<ion-view>
+	<ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button class="button-clear">
+	    <i class="ion-arrow-left-c"></i> Back
+	  </ion-nav-back-button>
+
+      
+    </ion-nav-bar>
+	<ion-header-bar class="bar bar-assertive">
+		<div class="title"><center>Favorite Posts</center></div>
+	</ion-header-bar>
+	<div class="bar bar-subheader item-input-inset">
+		<label class="item-input-wrapper">
+	    	<i class="icon ion-ios-search placeholder-icon"></i>
+	    	<input type="search" placeholder="Search" ng-model="searchText">
+	  	</label>
+  	</div>
+	<ion-content class="has-subheader">
+		<ion-refresher
+		    pulling-text="Pull to refresh..."
+		    on-refresh="doRefresh()">
+	  	</ion-refresher>
+		<ion-list class="list" can-swipe="true">
+
+			<ion-item class="item item-thumbnail-left item-text-wrap item-icon-right" href="#/main/postDetail/{{post.id}}" ng-repeat="post in favorite_posts | filter: {title:searchText}">
+		      <img ng-src="{{post.thumbnail}}">
+		      <h2>{{post.title}}</h2>
+		      <p ng-bind-html="post.excerpt | limitTo: 100"></p>
+		      <button class="button icon ion-heart button-clear" ng-class="{'button-assertive':post.isFavorite}"></button>
+		      <ion-option-button class="button-dark" ng-click="toggleFavorite(post)">
+		      	<i class="icon ion-heart"></i>
+			  </ion-option-button>
+		    </ion-item>
+		    
+		</ion-list>
+	</ion-content>
+</ion-view>

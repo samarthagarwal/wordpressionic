@@ -1,0 +1,46 @@
+<ion-view>
+	<ion-nav-bar class="bar-assertive">
+		<ion-nav-buttons side="left">
+
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+
+		<ion-nav-buttons side="right">
+			<button class="button button-icon button-clear ion-heart" ui-sref="main.favorites">
+			</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+
+	<ion-header-bar class="bar bar-assertive">
+		<div class="title"><center>Latest Posts</center></div>
+	</ion-header-bar>
+
+	<div class="bar bar-subheader item-input-inset">
+		<label class="item-input-inset">
+			<i class="icon ion-ios-search placeholder-icon"></i>
+			<input type="search" placeholder="Search..." ng-model="searchText" ng-change="searchTextChanged()"/>
+		</label>
+	</div>
+
+	<ion-content class="has-subheader" delegate-handle="mainScroll">
+		<ion-refresher
+		    pulling-text="Pull to refresh..."
+		    on-refresh="doRefresh()">
+	  	</ion-refresher>
+		<ion-list can-swipe="true">
+			<ion-item class="item item-thumbnail-left item-text-wrap item-icon-right" ng-repeat="post in recent_posts | filter: {title: searchText}" href="#/main/postDetail/{{post.id}}">
+				<img ng-src="{{ post.thumbnail }}"/>
+				<h2>{{ post.title }}</h2>
+				<p ng-bind-html="post.excerpt"></p>
+				<button class="button icon ion-heart button-clear" ng-class="{'button-assertive':post.isFavorite}"></button>
+				<ion-option-button class="button-dark" ng-click="toggleFavorite(post)">
+					<i class="icon ion-heart"></i>
+				</ion-option-button>
+			</ion-item>
+		</ion-list>
+		<ion-infinite-scroll ng-if="canLoadMore()"
+		    on-infinite="loadMore()" immediate-check="false">
+	  	</ion-infinite-scroll>
+	</ion-content>
+</ion-view>
