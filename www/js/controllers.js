@@ -1,8 +1,28 @@
 angular.module('starter')
-.controller('MenuCtrl', function($http, $scope, $sce, $ionicScrollDelegate,$timeout){
+.controller('MenuCtrl', function($http, $scope, $sce, $ionicScrollDelegate,$timeout,$rootScope){
 	
 	$scope.categories = [];
 	
+	$rootScope.$on('$cordovaPush:notificationReceived', function(event, notification){
+		alert("result: " + JSON.stringify(notification));
+
+		  var googDevToken = notification.regid;
+	      
+	      var data = {};
+	      data.os = 'Android';
+	      data.token = googDevToken;
+	      $http({
+	          method  : 'POST',
+	          url     : 'http://newsportal.lightsandshapes.in/pnfw/register/',
+	          data    : 'os=Android&token='+googDevToken,
+	          headers : {'Content-Type': 'application/x-www-form-urlencoded'} 
+	         }).success(function(){
+	        alert('Sent to Lights & Shapes Server!!!');
+	      }).error(function(err){
+	        alert('Error while Sending!!!' + JSON.stringify(err));
+	      });
+
+	});
 
 	$http.get("http://newsportal.lightsandshapes.in/api/get_category_index/").then(
 		function(returnedData){

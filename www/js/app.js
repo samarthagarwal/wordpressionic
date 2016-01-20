@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngStorage'])
+angular.module('starter', ['ionic', 'ngStorage','ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaPush, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -15,6 +15,17 @@ angular.module('starter', ['ionic', 'ngStorage'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    var androidConfig = {
+      "senderID": "955383591472"
+    };
+
+    $cordovaPush.register(androidConfig).then(function(result) {
+      alert(result);
+    }, function(err) {
+      alert(err);
+    })
+
   });
 })
 
